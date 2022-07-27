@@ -1,0 +1,80 @@
+https://www.cnblogs.com/kklldog/p/netcore-with-microservices-04.html
+使用 docker 运行 Consul#
+docker run -p 8500:8500 --name=consulserver consul agent -server -bootstrap -client=0.0.0.0 -ui -node=0
+
+使用 docker 命令运行初始化一个 consul 的 server 模式的节点。
+
+-server 启动为Server模式
+-bootstrap 设置为启动模式，这是第一个server节点，等待其它节点的加入
+-client 指定可以访问的客户端IP 。
+-ui 开启管理界面
+-node 节点的名字
+docker run -d --name=consulserver1 consul agent -server -node=1 -join=172.17.0.2
+有了第一个节点，我们可以开始创建更多的 Server 节点来构造集群。Consul 推荐至少3个 Server 来组建集群。上面的 docker 命令表示启动第二个 Server 然后加入第一个节点构造的集群。
+
+-join 加入某个集群，这里的 IP 为第一个启动的节点的内网 IP 。可以通过 docker exec XXX consul members 命令查看。后面会演示。
+docker run --name=consulclient0 -e consul agent -client=0.0.0.0 -node=client0 -retry-join=172.17.0.2
+我们有了 Server 集群，现在可以开始建立 Consul 的 client 节点，然后加入集群。启动 Consul client 的命令跟启动 Consul server 的差不多。去掉了 -server 就代表这个 agent 为 client 模式
+
+version: '3.9'
+services:
+
+  consulserver1:
+    image: consul:1.9.4
+    restart: always
+    container_name: consulserver1
+    hostname: consulserver1
+    command: agent -server -bootstrap -client=0.0.0.0 -ui -node=consulserver1
+    ports:
+      - 8500:8500
+  consulserver2:
+    image: consul:1.9.4
+    restart: always
+    container_name: consulserver2
+    hostname: consulserver2
+    command: agent -server -join=consulserver1 -node=consulserver2
+    depends_on:
+      - consulserver1
+
+  consulserver3:
+    image: consul:1.9.4
+    restart: always
+    container_name: consulserver3
+    hostname: consulserver3
+    command: agent -server -join=consulserver1 -node=consulserver3
+    depends_on:
+      - consulserver1
+
+  consulclient1:
+    image: consul:1.9.4
+    restart: always
+    container_name: consulclient1
+    hostname: consulclient1
+    command: agent -client=0.0.0.0 -retry-join=consulserver1 -node=consulclient1
+    depends_on:
+      - consulserver2
+      - consulserver3
+    ports:
+      - 8600:8500
+  consulclient2:
+    image: consul:1.9.4
+    restart: always
+    container_name: consulclient2
+    hostname: consulclient2
+    command: agent -client=0.0.0.0 -retry-join=consulserver1 -node=consulclient2
+    depends_on:
+      - consulserver2
+      - consulserver3
+    ports:
+      - 8700:8500
+  consulclient3:
+    image: consul:1.9.4
+    restart: always
+    container_name: consulclient3
+    hostname: consulclient3
+    command: agent -client=0.0.0.0 -retry-join=consulserver1 -node=consulclient3
+    depends_on:
+      - consulserver2
+      - consulserver3
+    ports:
+      - 8800:8500

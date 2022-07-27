@@ -1,0 +1,39 @@
+# Build and Release Folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# Other files and folders
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+/YC.Boilerplate.sln.bak
+/README.md.bak
+/.vs
+/src/Backstage/BasicAppLayer/YC.ServiceWebApi/Logs
+/src/Backstage/BasicAppLayer/YC.ServiceWebApi/Logs
+bin
+obj
+.vs
+.vs
+/src/Backstage/BasicAppLayer/YC.ServiceWebApi/Logs
+/src/Backstage/BasicAppLayer/YC.ServiceWebApi/File/log.txt
+/publish
+/src/Front.rar
+/src/Backstage.zip
+/src/Backstage/TestResults
+/src/MicroService/Software
+/src/IdentityServer/YC.IdentityServerWeb/obj
+/src/IdentityServer/YC.IdentityServerWeb/bin
+/src/MicroService/Software/consul.exe
+/src/MicroService/Software/consul.zip
+Uploads
