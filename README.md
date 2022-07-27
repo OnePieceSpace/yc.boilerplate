@@ -124,20 +124,6 @@ YC.Boilerplate 是一套快速开发框架，采用当下流行的前后端分�
 16. 框架已经实现常规基础功能，如：身份验证用户&角色管理、系统设置、存取管理（系统级、租户级、用户级，作用范围自动管理）、审计日志（自动记录每一次接口的调用者和参数）、组织机构等，实现框架开箱即用。
 17. 框架采用redis 作为cache和session 存储，脱离cookie 使用，解决非web的等也可以使用框架进行多样的场景需求改造。
 
-## 打赏支持
-
-<img src="https://gitee.com/linxuanming/yc.boilerplate/raw/master/assets/images/payCode/weixin_CollectionCode.jpg" width="36%" height="36%">
-<img src="https://gitee.com/linxuanming/yc.boilerplate/raw/master/assets/images/payCode/alipay_CollectionCode.jpg" width="36%" height="36%">
-
-捐赠人 | 捐赠金额（元）
----|---
-小蚂蚁| 66.66
-张三家的猫 | 100
-刘茜 | 99
-ak11 | 8.8
-弗拉门 | 200
-
-
 consul agent -server -bootstrap-expect=1 -bind=127.0.0.1 -client=127.0.0.1 -join=127.0.0.1 -datacenter=dc1 -data-dir=data -ui -node=consul-80
 
 ## 参与贡献
